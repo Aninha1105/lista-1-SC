@@ -1,8 +1,4 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <cctype>
-#include <limits>
+#include <bits/stdc++.h>
 #define desync ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
 using namespace std;
@@ -12,11 +8,12 @@ string cifrarTexto(string& texto, int k){
 
     for(char c: texto){
         if(isalpha(c)){
+            char b;
             if(isupper(c)){
-                char b = 'A';
+                b = 'A';
             }
             else {
-                char b = 'a';
+                b = 'a';
             }
 
             char deslocado = (c - b + k) % 26 + b;
@@ -39,7 +36,7 @@ void brute_force(string& textoCifrado){
 
     for(int k = 0; k<26; k++){
         string tentativa = decifraTexto(textoCifrado, k);
-        cout << "Chave " << k << ": " << tentativa << endl;
+        cout << "Chave: " << k << " => " << tentativa << endl;
     }
 
     return;
@@ -93,11 +90,11 @@ void analise_de_frequencia(string& textoCifrado){
                 qui += (freq_obs - freq_exp) * (freq_obs - freq_exp) / freq_exp;
             }
         }
-    }
 
-    if(qui < melhorScore){
-        melhorScore = qui;
-        melhork = k;
+        if(qui < melhorScore){
+            melhorScore = qui;
+            melhork = k;
+        }
     }
 
     int deslocamentoDecifragem = 26 - melhork;
@@ -105,7 +102,7 @@ void analise_de_frequencia(string& textoCifrado){
 
     cout << "Chave estimada (menor χ²): " << melhork 
          << " (χ² = " << melhorScore << ")" << endl;
-    cout << "Texto Deifrado pela frequência: " << textoDecifrado << endl;
+    cout << "Texto Decifrado pela frequência: " << textoDecifrado << endl;
 
     return;
 }
