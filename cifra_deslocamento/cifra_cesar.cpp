@@ -28,13 +28,13 @@ string cifrarTexto(string& texto, int k){
 }
 
 string decifraTexto(string& textoCifrado, int k){
-    return cifrarTexto(textoCifrado, (26-(k%26)));
+    return cifrarTexto(textoCifrado, (26 - (k % 26)));
 }
 
-void brute_force(string& textoCifrado){
+void bruteForce(string& textoCifrado){
     cout << "-----Tentativas de forca bruta-----" << endl;
 
-    for(int k = 0; k<26; k++){
+    for(int k = 0; k < 26; k++){
         string tentativa = decifraTexto(textoCifrado, k);
         cout << "Chave: " << k << " => " << tentativa << endl;
     }
@@ -73,8 +73,8 @@ vector<double> calculaFrequenciaObservada(string& texto){
     return contador;
 }
 
-void analise_de_frequencia(string& textoCifrado){
-    vector<double> freq_observada = calculaFrequenciaObservada(textoCifrado);
+void analiseDeFrequencia(string& textoCifrado){
+    vector<double> frequenciaObservada = calculaFrequenciaObservada(textoCifrado);
 
     double melhorScore = numeric_limits<double>::infinity();
     int melhork = 0;
@@ -83,12 +83,12 @@ void analise_de_frequencia(string& textoCifrado){
         double qui = 0.0;
 
         for(int letra = 0; letra < 26; letra++){
-            int idxDeslocado = (letra + k) % 26;
-            double freq_obs = freq_observada[idxDeslocado];
-            double freq_exp = freq_esperada[letra];
+            int indexDeslocado = (letra + k) % 26;
+            double freqObs = frequenciaObservada[indexDeslocado];
+            double freqExp = freq_esperada[letra];
 
-            if(freq_exp > 0){
-                qui += (freq_obs - freq_exp) * (freq_obs - freq_exp) / freq_exp;
+            if(freqExp > 0){
+                qui += (freqObs - freqExp) * (freqObs - freqExp) / freqExp;
             }
         }
 
@@ -119,13 +119,15 @@ int main(){
     string textoCifrado = cifrarTexto(textoOriginal, chave);
     string textoDecifrado = decifraTexto(textoCifrado, chave);
 
+    cout << "Chave: " << chave << endl << endl;
     cout << "Texto Original: " << textoOriginal << endl;
     cout << "Texto Cifrado: " << textoCifrado << endl;
     cout << "Texto Decifrado: " << textoDecifrado << endl;
+    cout << "Tamanho do texto: " << textoOriginal.size() << endl;
     cout << endl;
 
-    brute_force(textoCifrado);
-    analise_de_frequencia(textoCifrado);
+    bruteForce(textoCifrado);
+    analiseDeFrequencia(textoCifrado);
 
     return 0;
 }

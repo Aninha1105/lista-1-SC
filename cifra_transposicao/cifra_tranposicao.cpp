@@ -72,17 +72,17 @@ map<string,double> TRIGRAFOS = {
 vector<int> gerarChaveNumerica(string& chaveTexto){
     int tamanho = chaveTexto.size();
 
-    vector<pair<char,int>> idx_letras;
+    vector<pair<char,int>> indexLetras;
     for(int i = 0; i < tamanho; i++){
-        idx_letras.push_back({toupper(chaveTexto[i]), i});
+        indexLetras.push_back({toupper(chaveTexto[i]), i});
     }
 
-    sort(idx_letras.begin(), idx_letras.end());
+    sort(indexLetras.begin(), indexLetras.end());
 
     vector<int> chaveNumerica(tamanho);
-    for(int nova_pos = 0; nova_pos < tamanho; nova_pos++){
-        int idx = idx_letras[nova_pos].second;
-        chaveNumerica[idx] = nova_pos;
+    for(int novaPosicao = 0; novaPosicao < tamanho; novaPosicao++){
+        int index = indexLetras[novaPosicao].second;
+        chaveNumerica[index] = novaPosicao;
     }
 
     return chaveNumerica;
@@ -106,10 +106,10 @@ string cifrarTexto(string& textoOriginal, vector<int>& chave){
     int numLinhas = texto.size() / numColunas;
 
     vector<vector<char>> matriz(numLinhas, vector<char>(numColunas));
-    int idx = 0;
+    int index = 0;
     for(int i = 0; i < numLinhas; i++){
         for(int j = 0; j < numColunas; j++){
-            matriz[i][j] = texto[idx++];
+            matriz[i][j] = texto[index++];
         }
     }
 
@@ -134,10 +134,10 @@ string decifrarTexto(string& textoCifrado, vector<int>& chave){
         posColuna[chave[i]] = i;
     }
 
-    int idx = 0;
+    int index = 0;
     for(int coluna: chave){
         for(int i = 0; i < numLinhas; i++){
-            matriz[i][coluna] = textoCifrado[idx++];
+            matriz[i][coluna] = textoCifrado[index++];
         }
     }
 
@@ -173,13 +173,13 @@ double calcularScore(const string& texto) {
     return score;
 }
 
-void brute_force_com_freq(string& textoCifrado){
+void bruteForceComFrequencia(string& textoCifrado){
     cout << "-----Tentativas de forca bruta-----" << endl;
     string melhorDecifrado;
     vector<int> melhorChave(6), chave = {0, 1, 2, 3, 4, 5};
 
     double melhorScore = -1.0;
-    int perms = 0;
+    int permutacoes = 0;
 
     do{
         string tentativa = decifrarTexto(textoCifrado, chave);
@@ -195,17 +195,17 @@ void brute_force_com_freq(string& textoCifrado){
         for(int col : chave) cout << col << " ";
         cout << " => " << tentativa << endl;
 
-        perms++;
+        permutacoes++;
     } while(next_permutation(chave.begin(), chave.end()));
 
-    cout << "Total de tentativas: " << perms << endl;
+    cout << "Total de tentativas: " << permutacoes << endl;
 
     cout << endl;
     cout << "-----Distribuição de Frequência-----" << endl;
-    cout << "Texto Decifrado pela frequência: " << melhorDecifrado << endl;
     cout << "Score: " << melhorScore << " | Chave: ";
     for(int col: melhorChave) cout << col << " ";
     cout << endl;
+    cout << "Texto Decifrado pela frequência: " << melhorDecifrado << endl;
 }
 
 int main(){
@@ -219,6 +219,8 @@ int main(){
     cout << "Chave numérica: ";
     for (int val : chaveNumerica) cout << val << " ";
     cout << endl;
+    cout << "Tamanho da chave: " << chaveNumerica.size() << endl;
+    cout << endl;
 
     string textoCifrado = cifrarTexto(textoOriginal, chaveNumerica);
     string textoDecifrado = decifrarTexto(textoCifrado, chaveNumerica);
@@ -229,7 +231,7 @@ int main(){
     cout << "Tamanho do texto: " << textoOriginal.size() << endl;
     cout << endl;
     
-    brute_force_com_freq(textoCifrado);
+    bruteForceComFrequencia(textoCifrado);
     
 
     return 0;
