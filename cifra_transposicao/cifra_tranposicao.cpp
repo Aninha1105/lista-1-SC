@@ -1,3 +1,9 @@
+/**
+ * \file cifra_transposicao.cpp
+ * \brief Implementação da cifra por transposicao e a respectiva decifração, além da quebra por: ataque de força bruta e análise de frequência.
+ * \author Ana Luísa de Souza Paraguassu - 231003442
+ */
+
 #include <bits/stdc++.h>
 #define desync ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
@@ -68,7 +74,12 @@ map<string,double> TRIGRAFOS = {
     {"ONT",24.05}, {"PRE",24.04}, {"IST",23.91}, {"TER",23.89}, {"AIS",23.37}
 };
 
-
+/**
+ * \brief Gera vetor de permutação numérica a partir de uma chave-palavra.
+ * \param chaveTexto Palavra-chave que define a permutação.
+ * \return Vetor de inteiros representando a ordem das colunas.
+ * \details Ordena alfabeticamente os caracteres da palavra, mantendo índices originais em caso de empate.
+ */
 vector<int> gerarChaveNumerica(string& chaveTexto){
     int tamanho = chaveTexto.size();
 
@@ -88,6 +99,13 @@ vector<int> gerarChaveNumerica(string& chaveTexto){
     return chaveNumerica;
 }
 
+/**
+ * \brief Preenche o texto com padding até múltiplos do número de colunas.
+ * \param texto Texto original a ser cifrado.
+ * \param numColunas Número de colunas da transposição.
+ * \return Texto com caracteres de padding '*' adicionados.
+ * \details Garante que o número de caracteres seja divisível por numColunas.
+ */
 string padTexto(string& texto, int numColunas){
     string resultado = texto;
     int resto = texto.size() % numColunas;
@@ -100,6 +118,13 @@ string padTexto(string& texto, int numColunas){
     return resultado;
 }
 
+/**
+ * \brief Cifra um texto usando transposição colunar com chave dada.
+ * \param textoOriginal Texto de entrada a ser cifrado.
+ * \param chave Vetor de permutação definindo a ordem das colunas.
+ * \return Texto cifrado.
+ * \details Escreve o texto em linhas de largura igual ao tamanho da chave e lê colunas na ordem especificada.
+ */
 string cifrarTexto(string& textoOriginal, vector<int>& chave){
     int numColunas = chave.size();
     string texto = padTexto(textoOriginal, numColunas);
@@ -123,6 +148,13 @@ string cifrarTexto(string& textoOriginal, vector<int>& chave){
     return resultado;
 }
 
+/**
+ * \brief Decifra um texto cifrado por transposição colunar.
+ * \param textoCifrado Texto a ser decifrado.
+ * \param chave Vetor de permutação usado na cifragem.
+ * \return Texto decifrado (incluindo padding).
+ * \details Reconstrói a matriz coluna por coluna e lê linha a linha para recuperar o texto.
+ */
 string decifrarTexto(string& textoCifrado, vector<int>& chave){
     int numColunas = chave.size();
     int numLinhas = textoCifrado.size() / numColunas;
@@ -151,6 +183,12 @@ string decifrarTexto(string& textoCifrado, vector<int>& chave){
     return resultado;
 }
 
+/**
+ * \brief Calcula o escore linguístico combinando digramas e trígramas.
+ * \param texto Texto decifrado para avaliação.
+ * \return Valor do score (soma de frequências de n-gramas encontrados).
+ * \details Soma pesos de digramas e trígramas frequentes para distinguir textos legíveis.
+ */
 double calcularScore(const string& texto) {
     double score = 0.0;
 
@@ -173,6 +211,12 @@ double calcularScore(const string& texto) {
     return score;
 }
 
+/**
+ * \brief Executa brute-force usando análise de frequência para escolher a melhor permutação.
+ * \param textoCifrado Texto cifrado por transposição.
+ * \return void
+ * \details Gera todas as permutações, avalia cada decifração pelo score linguístico e imprime a melhor.
+ */
 void bruteForceComFrequencia(string& textoCifrado){
     cout << "-----Tentativas de forca bruta-----" << endl;
     string melhorDecifrado;
