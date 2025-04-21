@@ -32,12 +32,13 @@ string decifraTexto(string& textoCifrado, int k){
 }
 
 void brute_force(string& textoCifrado){
-    cout << "Tentativas de forca bruta" << endl;
+    cout << "-----Tentativas de forca bruta-----" << endl;
 
     for(int k = 0; k<26; k++){
         string tentativa = decifraTexto(textoCifrado, k);
         cout << "Chave: " << k << " => " << tentativa << endl;
     }
+    cout << endl;
 
     return;
 }
@@ -100,6 +101,7 @@ void analise_de_frequencia(string& textoCifrado){
     int deslocamentoDecifragem = 26 - melhork;
     string textoDecifrado = cifrarTexto(textoCifrado, deslocamentoDecifragem);
 
+    cout << "-----Distribuição de Frequência-----" << endl;
     cout << "Chave estimada (menor χ²): " << melhork 
          << " (χ² = " << melhorScore << ")" << endl;
     cout << "Texto Decifrado pela frequência: " << textoDecifrado << endl;
@@ -110,7 +112,8 @@ void analise_de_frequencia(string& textoCifrado){
 
 int main(){
     desync;
-    string textoOriginal = "SegurancaComputacionalListaExercicio";
+
+    string textoOriginal = "Amoreumfogoqueardesemsevereferidaquedoienaosesenteeumcontentamentodescontenteedorquedesatinasemdoer";
 
     int chave = 3;
     string textoCifrado = cifrarTexto(textoOriginal, chave);
